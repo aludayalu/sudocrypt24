@@ -425,7 +425,7 @@ def submit():
         announcements = ""
         header = render("components/header.html", locals())
         footer = render("components/footer.html", locals())
-        level=loggedIn["Value"]["level"][type]
+        level=type+"-"+str(loggedIn["Value"]["level"][type])
         level_Details=get("levels", str(level))
         player=loggedIn["Value"]
         playerLogs=get("logs", player["email"])
