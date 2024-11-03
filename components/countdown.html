@@ -3,7 +3,7 @@
     var minute = second * 60
     var hour = minute * 60
     var day = hour * 24
-    const countDown = new Date("2024-06-25T03:30:00.000Z").getTime()
+    const countDown = new Date({starttime}).getTime()
     const x = setInterval(() => {
         const now = new Date().getTime()
         var distance = countDown - now;

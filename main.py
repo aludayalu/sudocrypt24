@@ -85,11 +85,15 @@ def home():
             redirect_url="/play"
             countdown = render("buttons/home", locals())
         else:
-            button_text="SIGN IN WITH @DPSRKP.NET"
+            button_text="SIGN IN WITH EMAIL"
             redirect_url="/auth"
-            countdown = render("buttons/home", locals())
+            if loggedIn["Value"]["email"] in admin:
+                countdown = render("buttons/home", locals())
+            else:
+                starttime=startTime*1000
+                countdown = render("countdown", locals())
     else:
-        button_text="SIGN IN WITH @DPSRKP.NET"
+        button_text="SIGN IN WITH EMAIL"
         redirect_url="/auth"
         countdown = render("buttons/home", locals())
     return render("components/index.html", locals())
@@ -112,7 +116,10 @@ def leaderboard():
         level.sort(key=lambda data: data["time"])
         for player in level:
             if player["email"] not in players_added:
-                leaderboard_data.append({"time":player["time"], "name":player["name"], "points":player["points"]})
+                leaderboard_item={"time":player["time"], "name":player["name"], "points":player["points"]}
+                if request.cookies.get("email") in admin:
+                    leaderboard_item["email"]=player["email"]
+                leaderboard_data.append(leaderboard_item)
                 players_added.append(player["email"])
 
     leaderboard = []
@@ -120,12 +127,13 @@ def leaderboard():
     for i in range(len(leaderboard_data)):
         name = leaderboard_data[i]["name"]
         level = leaderboard_data[i]["points"]
-        logs = []
-        if request.cookies.get("email") in admin and False:
-            for log in leaderboard_data[i]["logs"]:
-                logs.append(render("components/leaderboard/modal.html", locals()))
+        email_text = ""
+        if request.cookies.get("email") in admin:
+            email_text=" • Email: "+leaderboard_data[i]["email"]
 
         rank = i + 1
+
+        
 
         leaderboard.append(render("components/leaderboard/card.html", locals()))
 
