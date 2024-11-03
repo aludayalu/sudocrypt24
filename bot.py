@@ -71,7 +71,10 @@ async def on_message(message:discord.Message):
         id=message.reference.message_id
         database_message=get("discord_messages", str(id))
         if database_message["Ok"]:
-            set("messages/"+database_message["Value"]["email"], str(message.id), {"author":"Exun Clan", "content":message.content, "time":time.time(), "id":str(message.id)})
+            type="cryptic"
+            if "ctf" in message.channel.name:
+                type="ctf"
+            set("messages/"+database_message["Value"]["email"], str(message.id), {"author":"Exun Clan", "content":message.content, "time":time.time(), "id":str(message.id), "type":type})
 
 @bot.event
 async def on_message_delete(message:discord.Message):

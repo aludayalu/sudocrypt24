@@ -2,9 +2,14 @@ import { Signal } from "/$.js";
 
 const chatToggleBtn = document.getElementById("chatToggleBtn")
 const chatPopup = document.getElementById("chatPopup")
-
 var notyf = new Notyf();
 var position = { x: "center", y: "top" }
+var levelType=new URLSearchParams((new URL(window.location.href)).search).get("type")
+if (levelType=="ctf") {
+    levelType="ctf"
+} else {
+    levelType="cryptic"
+}
 
 const chatSignal = Signal("chatOpenState", "close")
 window.chatSignal=chatSignal
@@ -61,7 +66,7 @@ document.getElementById("chatSendButton").addEventListener("click", async (x)=>{
     if (text!="") {
         document.getElementById("chatInput").value=""
         document.getElementById("chatMsgLen").innerText = "0"
-        var response=await (await fetch("/submit_message?content="+encodeURIComponent(text))).json()
+        var response=await (await fetch("/submit_message?content="+encodeURIComponent(text)+"&type="+levelType)).json()
         if (response.error!=undefined) {
             notyf.error({ position: position, message: response.error })
         } else {
@@ -149,6 +154,10 @@ checksum.onChange=async ()=>{
     })
     document.getElementById("messagecontainer").innerHTML=""
     final.forEach((x)=>{
+        console.log(x)
+        if (x["type"]!=levelType) {
+            return
+        }
         if (x["author"]=="Exun Clan") {
             document.getElementById("messagecontainer").innerHTML+=messageMe.replace("{content}", x["content"])
         } else {

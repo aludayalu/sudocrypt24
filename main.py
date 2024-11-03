@@ -288,7 +288,7 @@ def admin_page():
 def play():
     args=dict(request.args)
     type="cryptic"
-    if "ctf" in args and args["ctf"]=="true":
+    if "type" in args and args["type"]=="ctf":
         type="ctf"
     loggedIn = auth(dict(request.cookies))
     if loggedIn["Ok"] and (request.cookies.get("email") in admin or during_event()):
@@ -301,7 +301,7 @@ def play():
         announcements = render("components/announcements.html", locals())
         header = render("components/header.html", locals())
         footer = render("components/footer.html", locals())
-        level=loggedIn["Value"]["level"][type]
+        level=type+"-"+str(loggedIn["Value"]["level"][type])
         level_Details=get("levels", str(level))
         markup=level_Details["Value"]["markup"]
         chats=[]
@@ -348,6 +348,9 @@ def announcements():
 def submit_message():
     loggedIn = auth(dict(request.cookies))
     args=dict(request.args)
+    type="cryptic"
+    if "type" in args and args["type"]=="ctf":
+        type="ctf"
     if "content" not in args:
         return {"error":"Missing Fields"}
     if loggedIn["Ok"]:
@@ -376,8 +379,9 @@ def submit_message():
         player=loggedIn["Value"]
         id=str(time.time())
         set("messagetimes", player["email"], time.time())
-        set("messages/"+player["email"], id, {"author":loggedIn["Value"]["email"], "content":args["content"], "time":id, "id":id})
-        requests.get(botapi+"/send_message?level="+str(player["level"])+"&name="+quote(player["name"])+"&email="+quote(player["email"])+"&content="+quote(args["content"]))
+        set("messages/"+player["email"], id, {"author":loggedIn["Value"]["email"], "content":args["content"], "time":id, "id":id, "type":type})
+        level=type+"-"+str(player["level"][type])
+        requests.get(botapi+"/send_message?level="+str(level)+"&name="+quote(player["name"])+"&email="+quote(player["email"])+"&content="+quote(args["content"]))
         return {"success":True}
     else:
         return {"error":"Not LoggedIn"}
@@ -393,7 +397,7 @@ def submit():
     loggedIn = auth(dict(request.cookies))
     args=dict(request.args)
     type="cryptic"
-    if "ctf" in args and args["ctf"]=="true":
+    if "type" in args and args["type"]=="ctf":
         type="ctf"
     if "answer" not in args:
         return {"error":"Missing Fields"}
@@ -435,7 +439,7 @@ def submit():
         if level_Details["Value"]["answer"]==args["answer"]:
             player["level"][type]+=1
             set("accounts", player["email"], player)
-            set("leaderboard", player["email"], {"email":player["email"] ,"time":time.time(), "points":player["level"]["ctf"]+player["level"]["cryptic"], "name":player["name"]})
+            set("leaderboard", player["email"], {"email":player["email"], "time":time.time(), "points":player["level"]["ctf"]+player["level"]["cryptic"], "name":player["name"]})
             for x in get_All("messages/"+player["email"])["Value"]:
                 delete("messages/"+player["email"], x["id"])
             return {"success":True}
