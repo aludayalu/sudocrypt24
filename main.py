@@ -19,7 +19,11 @@ def during_event():
     return startTime<=time.time() and time.time()<=endTime
 
 admin=["r23025aarav@dpsrkp.net", "r23733atharv@dpsrkp.net", "exun@dpsrkp.net", "aarav@dayal.org"]
-profanity=open("profanity.txt").read()
+
+try:
+    profanity=open("profanity.txt").read()
+except:
+    profanity=""
 
 app = Flask(__name__)
 init(app)
