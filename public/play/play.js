@@ -4,12 +4,9 @@ const converter = new showdown.Converter();
 document.getElementById("markup").innerHTML = converter.makeHtml(markupHTML)
 
 var levelType=new URLSearchParams((new URL(window.location.href)).search).get("type")
-if (levelType=="ctf") {
-    levelType="ctf"
-} else {
+if (levelType!=="ctf") {
     levelType="cryptic"
 }
-
 
 async function submit() {
     var input = document.getElementById("messageInput")
