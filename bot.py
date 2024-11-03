@@ -47,7 +47,7 @@ async def create_channel():
 
 async def send_message(level, name, email, content):
     channel=bot.get_channel(get("level_channels", level)["Value"]["level"])
-    message=await channel.send(f"`{name} {email} : {content}`\n")
+    message=await channel.send(f"`{name} {email} : {content.replace("`", "")}`\n")
     set("discord_messages", str(message.id), {"email":email})
 
 @app.get("/send_message")
