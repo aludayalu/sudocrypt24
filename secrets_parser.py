@@ -17,4 +17,4 @@ def parse(path):
             env[x]=json.loads(env[x])
         except:
             pass
-    return 
+    return env
