@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="assets/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#131520" />
+    <meta name="description" content="Website for Exun Sudocrypt 2024" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <title>Sudocrypt 2024</title>
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap">
+    <link rel="stylesheet" href="main.css">
+    <script src="tailwind.js"></script>
+
+</head>
+
+<body>
+    <div
+        class="relative w-screen h-screen bg-[var(--background)] pt-40 lg:pt-20 flex flex-col justify-center items-center gap-14">
+        <div class="text-2xl font-semibold text-center">
+            <p id="404text" class="[font-family:_'Roboto_Mono';]"></p>
+        </div>
+    </div>
+
+</body>
+<script defer>
+    const textCont = document.getElementById("404text")
+    const finalText = "404 Page Not Found"
+    
+    const shuffle = 4
+    
+    const chars = "kca0vtbn3hw4rmdo1g2y7sj8x6pul95feqziKCA0VTBN3HW4RMDO1G2Y7SJ8X6PUL95FEQZI!@#$%^&*;',.<>/?`~"
+    
+    document.addEventListener("DOMContentLoaded", async () => {
+        
+        for (let i = 1; i <= shuffle * finalText.length; i++) {
+            var text = ""
+
+            for (let j = 0; j < finalText.length; j++) {
+                const gibberish=chars[parseInt(Math.random() * (finalText.length) + finalText.length)]
+                text+=gibberish
+            }
+
+            text=finalText.slice(0, Math.floor(i / (shuffle))) + text.slice(Math.floor(i / (shuffle)))
+            textCont.innerText = text
+
+            await new Promise(r => setTimeout(r, 10));
+        }
+        
+
+    })
+</script>
+
+</html>

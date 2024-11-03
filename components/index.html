@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="assets/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#131520" />
+    <meta name="description" content="Website for Exun Sudocrypt 2024" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <title>Sudocrypt 2024</title>
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap">
+    <link rel="stylesheet" href="main.css">
+    <script src="tailwind.js"></script>
+
+</head>
+
+<body>
+    <div class="relative w-screen h-screen bg-[var(--background)] pt-40 lg:pt-20">
+
+        {header}
+
+        {confetti}
+
+        <div id="random" class="relative w-full">
+            <div class="transition transition-all duration-300 w-full">
+                <div class="max-w-[800px] mx-auto p-4 sm:p-7 w-full">
+                    <h4 class="text-5xl font-bold mb-10 text-center">Instructions</h4>
+                    <div class="wrapper">
+                        <div class="max-w-[800px] text-base text-white/90 flex flex-col gap-2">
+                            <p>This is a platform created by <a href="https://exunclan.com/" target="_blank"
+                                    class="text-[var(--primary)]">Exun Clan</a>.</p>
+                            <p>All students are recommended to read the <a
+                                    href="https://docs.google.com/document/d/e/2PACX-1vRxmgwlxNkSHb-ZDedsBvUvp14PBTXoKgIETV4XkNzZjo07MVPPNRkr7v14Ls9PhLZ8qUD1f1TulqHV/pub"
+                                    target="_blank" class="text-[var(--primary)]">Cryptic Hunt resources</a>.</p>
+
+                            <div
+                                class="my-3 p-4 bg-[var(--background)] border border-white/50 rounded-lg w-full flex flex-col gap-2">
+                                <p>The platform encompasses an Online Cryptic Treasure Hunt in which
+                                    students can make their way through cryptic levels created by us over the years.
+                                </p>
+                                <p>At each level, the students will encounter a number of clues which
+                                    shall all, together, point to one answer. Each level has one correct answer.</p>
+                                <p>Answers will always be lower-case, alphanumeric and will contain no
+                                    spaces. Special characters are allowed. For example, if the answer is Big Bang, you
+                                    would type it in as "bigbang".</p>
+                                <p>All levels have to be done in a sequential order. No levels can be
+                                    skipped and the order of levels cannot be changed by own will.</p>
+                                <p>Every clue in the question is important. If it wasn't important, it
+                                    wouldn't be there.</p>
+                                <p>Beware of the spelling you enter, we do not auto-correct.</p>
+                                <p>You can come back to this page any time by clicking on the
+                                    Sudocrypt logo in the top left corner of the page.</p>
+                            </div>
+
+                            <div class="w-full flex flex-col gap-2">
+                                <p>No aspect of the website can be shared with any student, teacher, parent or person
+                                    alike
+                                    from outside of Delhi Public School, R.K. Puram.</p>
+                                <p>Failure to comply will result in disciplinary actions.</p>
+                            </div>
+                        </div>
+                    </div>
+                    {countdown}
+                </div>
+            </div>
+        </div>
+        {footer}
+    </div>
+
+</body>
+
+</html>

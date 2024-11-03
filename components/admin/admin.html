@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="assets/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#131520" />
+    <meta name="description" content="Website for Exun Sudocrypt 2024" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <title>Sudocrypt - Admin</title>
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap">
+    <link rel="stylesheet" href="main.css">
+    <script src="tailwind.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"
+        integrity="sha512-LhccdVNGe2QMEfI3x4DVV3ckMRe36TfydKss6mJpdHjNFiV07dFpS2xzeZedptKZrwxfICJpez09iNioiSZ3hA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <style>
+        #displayBox a {
+            color: var(--primary);
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="relative w-screen h-screen bg-[var(--background)] pt-40 lg:pt-20">
+        {header}
+
+        <div class="flex flex-wrap">
+            {levels}
+
+            <div class="text-5xl w-60 m-2.5 bg-white/[0.03] text-white rounded-lg p-1 text-center cursor-pointer"
+                onclick="openPopup(-1)">
+                <p>+</p>
+            </div>
+        </div>
+
+        <div id="popupContainer"
+            class="hidden fixed left-0 top-0 w-full h-full z-[1000] px-14 py-7 box-border bg-[rgba(13,14,17,0.75)] backdrop-blur">
+
+            <!-- box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); -->
+
+            <div class="relative w-full h-full bg-white/[0.03] border border-white/[0.15] flex flex-col justify-between items-center gap-5 overflow-y-auto text-white rounded-lg p-2.5 pb-5"
+                id="popupContent">
+
+                <div class="w-full flex flex-col items-center gap-5">
+                    <p id="level_id" class="text-xl font-medium">Level 0</p>
+
+                    <div class="flex items-center gap-5 w-full">
+                        <div
+                            class="w-full h-[50vh] rounded-lg box-border overflow-hidden flex flex-col p-3 rounded-lg border border-white/[0.15] bg-[var(--background)]">
+                            <div class="w-full" id="displayBox"></div>
+                        </div>
+                        <div class="w-full h-[50vh] rounded-lg">
+                            <textarea
+                                class="w-full h-full p-2.5 text-base bg-[var(--background)] text-white border-box outline-none resize-none overflow-y-auto rounded-md mb-2.5 border border-white/[0.15] placeholder:text-white/[0.5]"
+                                id="inputField" placeholder="Enter Markdown or URL">
+                        </textarea>
+                        </div>
+                    </div>
+
+                    <div class="w-full flex gap-3">
+                        <div class="w-full flex flex-col gap-2">
+                            <p class="text-white/70 text-xs w-auto pl-1">Source Hint</p>
+                            <input type="text" id="sourceHintField"
+                                class="w-full p-2.5 text-base bg-white/[0.03] border border-white/[0.15] text-white border-box outline-none rounded-md placeholder:text-white/[0.5]"
+                                placeholder="Source Hint">
+                        </div>
+
+                        <div class="w-full flex flex-col gap-2">
+                            <p class="text-white/70 text-xs w-auto pl-1">Answer</p>
+                            <input type="text" id="answerField"
+                                class="w-full p-2.5 text-base bg-white/[0.03] border border-white/[0.15] text-white border-box outline-none rounded-md placeholder:text-white/[0.5]"
+                                placeholder="Answer">
+                        </div>
+
+                        <div class="w-full flex flex-col gap-2">
+                            <p class="text-white/70 text-xs w-auto pl-1">Level Id</p>
+                            <input type="text" id="levelId"
+                                class="w-full p-2.5 text-base bg-white/[0.03] border border-white/[0.15] text-white border-box outline-none rounded-md placeholder:text-white/[0.5]"
+                                placeholder="Level Id">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-center w-1/2 gap-5">
+                    <button
+                        class="bg-[var(--primary)] text-white font-medium py-2 px-4 rounded-md text-base cursor-pointer transition duration-300 hover:bg-[#147bb1] w-full"
+                        onclick="submitForm()">Submit</button>
+                    <button
+                        class="bg-[var(--primary)] text-white font-medium py-2 px-4 rounded-md text-base cursor-pointer transition duration-300 hover:bg-[#147bb1] w-full"
+                        onclick="deleteLevel()">Delete</button>
+                    <button
+                        class="bg-[var(--primary)] text-white font-medium py-2 px-4 rounded-md text-base cursor-pointer transition duration-300 hover:bg-[#147bb1] w-full"
+                        onclick="closePopup()">Cancel</button>
+                </div>
+
+                <button class="absolute top-3 right-3 text-white text-lg cursor-pointer" onclick="closePopup()">
+                    <svg width="26" height="26" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14 2L2 14" stroke="white" stroke-width="2" stroke-linecap="square"
+                            stroke-linejoin="round" />
+                        <path d="M2 2L14 14" stroke="white" stroke-width="2" stroke-linecap="square"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        {footer}
+    </div>
+
+    <script>
+        var levelsData = {levelsData}
+    </script>
+    <script defer src="admin.js"></script>
+
+</body>
+
+</html>

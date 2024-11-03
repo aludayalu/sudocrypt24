@@ -1,0 +1,61 @@
+<script defer>
+    var second = 1000
+    var minute = second * 60
+    var hour = minute * 60
+    var day = hour * 24
+    const countDown = new Date("2024-06-25T03:30:00.000Z").getTime()
+    const x = setInterval(() => {
+        const now = new Date().getTime()
+        var distance = countDown - now;
+
+        if (distance<0) {
+            distance=0
+        }
+
+        document.getElementById("days").innerText = Math.floor(distance / (day))
+        document.getElementById("hours").innerText = Math.floor((distance % (day)) / (hour))
+        document.getElementById("minutes").innerText = Math.floor((distance % (hour)) / (minute))
+        document.getElementById("seconds").innerText = Math.floor((distance % (minute)) / second)
+
+        if (distance==0) {
+            clearInterval(x)
+        }
+    }, 0)
+</script>
+<style>
+    li {
+        display: inline-block;
+        font-size: 1.5em;
+    }
+
+    li span {
+        display: block;
+        font-size: 4.5rem;
+    }
+</style>
+
+<div class="w-full flex flex-col justify-center gap-3 mt-14">
+    <h1 class="text-3xl sm:text-5xl font-bold text-center">Sudocrypt Starts In</h1>
+    <div class="wrapper">
+        <div id="countdown">
+            <ul class="flex gap-7 sm:gap-14 list-none pt-5 sm:pt-10">
+                <li class="flex flex-col items-center uppercase">
+                    <span id="days" class="text-4xl sm:text-7xl"></span>
+                    <span class="text-sm sm:text-lg text-white/60">days</span>
+                </li>
+                <li class="flex flex-col items-center uppercase">
+                    <span id="hours" class="text-4xl sm:text-7xl"></span>
+                    <span class="text-sm sm:text-lg text-white/60">Hours</span>
+                </li>
+                <li class="flex flex-col items-center uppercase">
+                    <span id="minutes" class="text-4xl sm:text-7xl"></span>
+                    <span class="text-sm sm:text-lg text-white/60">Minutes</span>
+                </li>
+                <li class="flex flex-col items-center uppercase">
+                    <span id="seconds" class="text-4xl sm:text-7xl"></span>
+                    <span class="text-sm sm:text-lg text-white/60">Seconds</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

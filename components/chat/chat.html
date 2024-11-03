@@ -1,0 +1,147 @@
+<style>
+    #chatControls>div:hover>svg {
+        opacity: 1;
+    }
+    #ChatbottomDiv:has(#chatInput[disabled]) > textarea{
+        cursor: not-allowed;
+    }
+    #ChatbottomDiv:has(#chatInput[disabled]) > textarea::placeholder{
+        opacity: 0;
+    }
+    #ChatbottomDiv:has(#chatInput[disabled]) > div,
+    #ChatbottomDiv:has(#chatInput[disabled]) > button{
+        filter: blur(2px);
+        cursor: not-allowed;
+        display: none;
+    }
+    #ChatbottomDiv:has(#chatInput[disabled]) > button:hover{
+        color: rgba(255, 255, 255, 0.4);
+    }
+    #ChatbottomDiv:has(#chatInput[disabled]) > p{
+        display: block;
+        cursor: not-allowed;
+    }
+</style>
+
+
+<div id="chatToggleBtn" class="fixed bottom-8 right-8 cursor-pointer">
+
+    <button id="btn-message" class="button-message">
+        <div class="content-avatar">
+            <div class="status-user" id="leads"></div>
+            <div class="avatar">
+                <svg class="user-img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path
+                        d="M12,12.5c-3.04,0-5.5,1.73-5.5,3.5s2.46,3.5,5.5,3.5,5.5-1.73,5.5-3.5-2.46-3.5-5.5-3.5Zm0-.5c1.66,0,3-1.34,3-3s-1.34-3-3-3-3,1.34-3,3,1.34,3,3,3Z">
+                    </path>
+                </svg>
+            </div>
+        </div>
+        <div class="notice-content">
+            <div class="username">Exun Clan</div>
+            <div class="lable-message">
+                Leads<span class="number-message" id="message-count"></span>
+            </div>
+            <div class="user-id">exun@dpsrkp.net</div>
+        </div>
+    </button>
+
+</div>
+
+<div id="chatPopup"
+    class="fixed bottom-8 right-8 opacity-0 hidden translate-y-[900px] transition duration-300 flex-col gap-2">
+    <div
+        class="flex w-[350px] h-[calc(100vh-175px)] rounded-lg flex-col justify-between items-center gap-3 p-3.5 pt-2 pl-2 bg-white/[0.03] border border-white/[0.15] backdrop-blur-sm">
+
+        <div id="chatControls" class="w-full flex gap-2">
+            <div id="chatCloseBtn" class="w-3 h-3 rounded-full bg-red-400 flex justify-center items-center">
+                <svg width="7" height="7" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    class="text-red-800 opacity-0 transition">
+                    <path d="M14 2L2 14" stroke="currentColor" stroke-width="2" stroke-linecap="square"
+                        stroke-linejoin="round" />
+                    <path d="M2 2L14 14" stroke="currentColor" stroke-width="2" stroke-linecap="square"
+                        stroke-linejoin="round" />
+                </svg>
+            </div>
+            <div id="chatMinimizeBtn" class="w-3 h-3 rounded-full bg-yellow-400 flex justify-center items-center">
+                <svg width="7" height="7" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    class="text-yellow-800 opacity-0 transition">
+                    <path d="M18.4853 9.99993L1.51472 9.99993" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="square" stroke-linejoin="round" />
+                </svg>
+
+            </div>
+            <div id="chatMaximizeBtn" class="w-3 h-3 rounded-full bg-green-400 flex justify-center items-center">
+                <svg width="7" height="7" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-green-800 opacity-0 transition">
+                    <g clip-path="url(#clip0_749_11)">
+                        <path d="M14.4427 1.62847L14.2543 11.4189L4.65227 1.81681L14.4427 1.62847Z" fill="currentColor" />
+                        <path d="M1.46431 14.6645L1.65264 4.87541L11.2534 14.4762L1.46431 14.6645Z" fill="currentColor" />
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_749_11">
+                            <rect width="16" height="16" fill="white" />
+                        </clipPath>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+
+        <div id="messagecontainer" class="h-full w-full flex flex-col gap-4 overflow-y-scroll no-scrollbar pb-1 pl-1.5">
+            {chats}
+        </div>
+        <div class="w-full relative pl-1.5 flex" id="ChatbottomDiv">
+            <textarea type="text" 
+                placeholder="Enter a message" 
+                rows="4"
+                id="chatInput"
+                class="w-full bg-[var(--background)] px-3 py-2 border border-white/[0.35] focus:border-white/[0.5] outline-none rounded-lg placeholder:text-white/[0.5] text-sm transition duration-300 opacity-1 scale-1 input scroll resize-none no-scrollbar disabled:blur-[2px]"></textarea>
+
+            <button id="chatSendButton"
+                class="flex justify-center items-center cursor-pointer transition duration-300 text-white/[0.4] hover:text-white absolute right-2 bottom-8 bg-[var(--background)] pl-1 py-1 box-border">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 664 663" class="h-full" width="20" height="20">
+                    <path stroke-linejoin="round" stroke-linecap="round" stroke-width="33.67" stroke="currentColor"
+                        d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888">
+                    </path>
+                </svg>
+            </button>
+
+            <div id="chatMsgCharLimit" class="flex gap-1 absolute right-2 bottom-3 text-[9px] text-white/70 bg-[var(--background)] pl-1 py-1 box-border">
+                <p class="w-[17px] text-right" id="chatMsgLen">0</p>
+                <p>/</p>
+                <p>512</p>
+            </div>
+
+            <p class="transition hidden absolute top-[calc(50%-14px)] translateY-[-50%] w-full text-center text-white font-semibold text-base">Leads are currently unavailable</p>
+        </div>
+    </div>
+</div>
+
+<script>
+var messageMe=`
+<div class="flex flex-row gap-2">
+    <img src="/assets/sudo.png" class="w-7 h-7 rounded-full">
+    <div
+        class="bg-[var(--background)] border border-white/[0.35] rounded-lg w-full p-2 pt-1 text-xs flex flex-col gap-4">
+        <p class="text-sm font-semibold text-[var(--primary)]">Exun Clan</p>
+        <p class="text-white/80">
+            {content}
+        </p>
+    </div>
+</div>
+`
+
+var messageYou=`
+<div class="flex flex-row gap-2">
+    <div
+        class="bg-[var(--background)] border border-white/[0.35] rounded-lg w-full p-2 pt-1 text-xs flex flex-col gap-4">
+        <p class="text-sm font-semibold text-white">You</p>
+        <p class="text-white/80">
+            {content}
+        </p>
+    </div>
+    <img src="{avatar}" class="w-8 h-8 rounded-full">
+</div>
+`
+</script>
+
+<script defer type="module" src="chat/chat.js"></script>
