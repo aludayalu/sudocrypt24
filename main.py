@@ -202,16 +202,18 @@ def auth_api():
                 for x in args["name"].split(" "):
                     if x in profanity:
                         return json.dumps({"error":"Profanity Detected"})
-            if args["otp"] == get_otp(args["email"]):
-                set("emails", args["email"], {"email":args["email"], "time":time.time()})
-                user = User()
-                user["email"] = args["email"]
-                user["name"] = args["name"].title()
-                user["password"] = hashlib.sha256(args["password"].encode()).hexdigest()
-                user["phonenumber"] = args["phonenumber"]
-                set("accounts", args["email"], user)
-                set("leaderboard", args["email"], {"email":args["email"] ,"time":time.time(), "points":0, "name":args["name"]})
-                return json.dumps({"success": True})
+                if args["otp"] == get_otp(args["email"]):
+                    set("emails", args["email"], {"email":args["email"], "time":time.time()})
+                    if "source" in args:
+                        set("trackers", args["email"], args["source"])
+                    user = User()
+                    user["email"] = args["email"]
+                    user["name"] = args["name"].title()
+                    user["password"] = hashlib.sha256(args["password"].encode()).hexdigest()
+                    user["phonenumber"] = args["phonenumber"]
+                    set("accounts", args["email"], user)
+                    set("leaderboard", args["email"], {"email":args["email"], "time":time.time(), "points":0, "name":args["name"]})
+                    return json.dumps({"success": True})
             else:
                 if args["method"]=="login":
                     return json.dumps({"error":"Account does not exist"})

@@ -1,5 +1,7 @@
 import { Signal } from "/$.js";
 
+var source=new URLSearchParams((new URL(window.location.href)).search).get("src")
+
 const signupBtn = document.getElementById("signup")
 const submitBtn = document.getElementById("submit")
 
@@ -105,7 +107,11 @@ submitBtn.addEventListener("click", () => {
         })
         return
     }
-    fetch("/api/auth?name=" + encodeURIComponent(name) + "&email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password) + "&otp=" + otp+"&method="+signal.Value()+"&phonenumber="+phonenumber).then(async (x) => {
+    var extra=""
+    if (source!==null) {
+        extra="&source="+encodeURIComponent(source)
+    }
+    fetch("/api/auth?name=" + encodeURIComponent(name) + "&email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password) + "&otp=" + otp+"&method="+signal.Value()+"&phonenumber="+phonenumber+extra).then(async (x) => {
         var out = await x.text()
         try {
             var json = JSON.parse(out)
