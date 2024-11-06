@@ -26,8 +26,6 @@ async def on_ready():
     print("Bot Started")
 
 async def create_channels(level):
-    if get("level_channels", level)["Ok"]:
-        return
     guild = bot.get_guild(int(GUILD_ID))
     levels_category = None
     hints_category = None
@@ -36,8 +34,22 @@ async def create_channels(level):
             levels_category = x
         if x.name == "hints":
             hints_category = x
-    level_channel=await guild.create_text_channel(f"leads-{level}", category=levels_category)
-    hint_channel=await guild.create_text_channel(f"hints-{level}", category=hints_category)
+    level_channel=None
+    channel0_name=f"leads-{level}"
+    hint_channel=None
+    channel1_name=f"hints-{level}"
+
+    for x in levels_category.text_channels:
+        if x.name==channel0_name:
+            level_channel=x
+    if level_channel==None:
+        level_channel=await guild.create_text_channel(f"leads-{level}", category=levels_category)
+    
+    for x in levels_category.text_channels:
+        if x.name==channel1_name:
+            hint_channel=x
+    if hint_channel==None:
+        hint_channel=await guild.create_text_channel(f"hints-{level}", category=hints_category)
     set("level_channels", level, {"level":level_channel.id, "hint":hint_channel.id})
 
 @app.get("/create_level")
