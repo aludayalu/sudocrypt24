@@ -12,8 +12,8 @@ from datetime import datetime, timedelta
 
 salt = parse("variables.txt")["salt"]
 botapi=parse("variables.txt")["botapi"]
-startTime=parse("variables.txt")["startTime"]
-endTime=parse("variables.txt")["endTime"]
+startTime=int(str(parse("variables.txt")["startTime"]))
+endTime=int(str(parse("variables.txt")["endTime"]))
 
 def during_event():
     return startTime<=time.time() and time.time()<=endTime

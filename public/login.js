@@ -2,6 +2,8 @@ import { Signal } from "/$.js";
 
 var source=new URLSearchParams((new URL(window.location.href)).search).get("src")
 
+console.log(source)
+
 const signupBtn = document.getElementById("signup")
 const submitBtn = document.getElementById("submit")
 
