@@ -188,17 +188,15 @@ def auth_api():
         else:
             if "name" not in args or "otp" not in args:
                 return json.dumps({"error": "Missing Fields", "args": args})
-            args["name"].replace("\t", "").replace("  ", " ")
+            args["name"]=args["name"].replace("\t", "").replace("  ", " ").strip()
             if args["method"]=="signup":
                 if len(args["phonenumber"])!=10:
                     return json.dumps({"error":"Phone Number must be 10 digits long"})
-                if len(args["name"].split(" "))>2:
-                    return json.dumps({"error":"Name can only contain first name and last name"})
+                if len(args["name"])>50:
+                    return json.dumps({"error":"Name cannot exceed 50 characters in total"})
                 for x in args["name"].replace(" ", ""):
                     if x not in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ":
                         return json.dumps({"error":"Name can only contain alphabets"})
-                if args["name"].count(" ")>2:
-                    return json.dumps({"error":"Name can only contain a first name and a last name"})
                 for x in args["name"].split(" "):
                     if x in profanity:
                         return json.dumps({"error":"Profanity Detected"})
