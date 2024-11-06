@@ -97,7 +97,7 @@ async def info(ctx):
 Commands:
 ```
 /info : help page
-/backlink : to set a backlink which redirects to a url, example: /backlink abcd https://intra.sudocrypt.com/assets/sudo.png
+/backlink : to set a backlink which redirects to a url, example: /backlink abcd https://sudocrypt.com/assets/sudo.png
 /logs : to get the logs of a player, example: /logs exun@dpsrkp.net
 /leads : to toggle leads, example: /leads
 /disqualify : to toggle disqualification of a player, example: /disqualify {email}
