@@ -316,6 +316,7 @@ def play():
         level=type+"-"+str(loggedIn["Value"]["level"][type])
         level_Details=get("levels", str(level))
         markup=level_Details["Value"]["markup"]
+        level_Answer_Hash=hashlib.sha256(("public_salt_to_prevent_rainbow_tables"+level_Details["Value"]["answer"]).encode()).hexdigest()
         chats=[]
         avatar="https://api.dicebear.com/9.x/big-smile/svg?seed="+quote(loggedIn["Value"]["name"])
         chat_btn = render("chat/chat", locals())
