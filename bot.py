@@ -77,7 +77,7 @@ async def on_message(message:discord.Message):
         set("announcements", str(message.id), {"content":message.content, "time":time.time()})
         return
     if message.channel.category.name=="hints":
-        level=message.channel.name.split("-")[1]
+        level=message.channel.name.split("-", 1)[1]
         set("hints/"+level, str(message.id), {"time":time.time(), "content":message.content, "id":message.id, "author":"Exun Clan"})
         return
     if message.reference!=None:
@@ -95,7 +95,7 @@ async def on_message_delete(message:discord.Message):
         delete("announcements", str(message.id))
         return
     if message.channel.category.name=="hints":
-        level=message.channel.name.split("-")[1]
+        level=message.channel.name.split("-", 1)[1]
         delete("hints/"+level, str(message.id))
     if message.reference!=None:
         id=message.reference.message_id
@@ -159,7 +159,7 @@ async def on_message_edit(before, after):
             set("announcements", str(before.id), announcement["Value"])
         return
     if before.channel.category.name=="hints":
-        level=before.channel.name.split("-")[1]
+        level=before.channel.name.split("-", 1)[1]
         hint=get("hints/"+level, str(before.id))["Value"]
         set("hints/"+level, str(before.id), hint | {"content":after.content})
     if before.reference!=None:
