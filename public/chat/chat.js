@@ -143,7 +143,7 @@ checksum.onChange=async ()=>{
         ignore=false
     }
     cookie_set("checksum", checksum.Value())
-    var request=(await (await fetch("/chats")).json())
+    var request=(await (await fetch("/chats&type="+levelType)).json())
     var chats=request["chats"]
     var hints=request["hints"]
     var final=chats.concat(hints)
@@ -168,7 +168,7 @@ checksum.onChange=async ()=>{
 }
 
 async function checkChecksum() {
-    var request=(await (await fetch("/chats_checksum")).json())
+    var request=(await (await fetch("/chats_checksum&type="+levelType)).json())
     leads=request["leads"]
     if (request["leads"]) {
         document.getElementById("leads").style.backgroundColor="#00da00"

@@ -327,9 +327,11 @@ def play():
 def chat_checksum():
     loggedIn = auth(dict(request.cookies))
     args=dict(request.args)
+    if "type" not in args:
+        return {"error":"Missing Fields"}
     if loggedIn["Ok"]:
         all_messages=get_All("messages/"+request.cookies.get("email"))
-        hints=get_All("hints/"+str(loggedIn["Value"]["level"]))
+        hints=get_All("hints/"+args["type"]+"-"+str(loggedIn["Value"]["level"][args["type"]]))
         leads=get("status", "leads")
         return {"checksum":hashlib.sha256(json.dumps(all_messages).encode()+json.dumps(hints).encode()).hexdigest(), "leads":leads["Value"], "announcements":hashlib.sha256(json.dumps(get_All("announcements")).encode()).hexdigest()}
     else:
@@ -339,9 +341,11 @@ def chat_checksum():
 def chats():
     loggedIn = auth(dict(request.cookies))
     args=dict(request.args)
+    if "type" not in args:
+        return {"error":"Missing Fields"}
     if loggedIn["Ok"]:
         all_messages=get_All("messages/"+request.cookies.get("email"))
-        hints=get_All("hints/"+str(loggedIn["Value"]["level"]))
+        hints=get_All("hints/"+args["type"]+"-"+str(loggedIn["Value"]["level"][args["type"]]))
         return {"chats":all_messages["Value"], "hints":hints["Value"]}
     else:
         return {"error":"Not LoggedIn"}
