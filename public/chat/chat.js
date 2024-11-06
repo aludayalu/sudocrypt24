@@ -152,7 +152,6 @@ checksum.onChange=async ()=>{
     })
     document.getElementById("messagecontainer").innerHTML=""
     final.forEach((x)=>{
-        console.log(x)
         if (x["type"]!=levelType) {
             return
         }

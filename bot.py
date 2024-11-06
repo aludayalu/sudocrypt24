@@ -78,7 +78,10 @@ async def on_message(message:discord.Message):
         return
     if message.channel.category.name=="hints":
         level=message.channel.name.split("-", 1)[1]
-        set("hints/"+level, str(message.id), {"time":time.time(), "content":message.content, "id":message.id, "author":"Exun Clan"})
+        type="cryptic"
+        if "ctf" in message.channel.name:
+            type="ctf"
+        set("hints/"+level, str(message.id), {"time":time.time(), "content":message.content, "id":message.id, "author":"Exun Clan", "type":type})
         return
     if message.reference!=None:
         id=message.reference.message_id
