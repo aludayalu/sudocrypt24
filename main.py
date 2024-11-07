@@ -465,3 +465,5 @@ def submit():
             return {"success":False}
     else:
         return {"error":"Not LoggedIn"}
+
+app.run(host="127.0.0.1", port=int(sys.argv[1]))
