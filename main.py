@@ -333,7 +333,7 @@ def chat_checksum():
     if loggedIn["Ok"]:
         all_messages=get_All("messages/"+request.cookies.get("email"))
         hints=get_All("hints/"+args["type"]+"-"+str(loggedIn["Value"]["level"][args["type"]]))
-        leads=get("status", "leads")
+        leads=get("status", "leads-"+args["type"])
         return {"checksum":hashlib.sha256(json.dumps(all_messages).encode()+json.dumps(hints).encode()).hexdigest(), "leads":leads["Value"], "announcements":hashlib.sha256(json.dumps(get_All("announcements")).encode()).hexdigest()}
     else:
         return {"error":"Not LoggedIn"}
@@ -376,7 +376,7 @@ def submit_message():
                 return {"error":"The event has not commenced yet"}
             if time.time()>=endTime:
                 return {"error":"The event has concluded"}
-        leads=get("status", "leads")
+        leads=get("status", "leads-"+type)
         if not leads["Value"]:
             return {"error":"Leads are unavailable at this moment"}
         last_Time=get("messagetimes", loggedIn["Value"]["email"])

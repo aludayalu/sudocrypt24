@@ -114,7 +114,8 @@ Commands:
 /info : help page
 /backlink : to set a backlink which redirects to a url, example: /backlink abcd https://sudocrypt.com/assets/sudo.png
 /logs : to get the logs of a player, example: /logs exun@dpsrkp.net
-/leads : to toggle leads, example: /leads
+/ctf_leads : to toggle ctf leads
+/cryptic_leads : to toggle cryptic
 /disqualify : to toggle disqualification of a player, example: /disqualify {email}
 ```
 """)
@@ -132,15 +133,26 @@ async def logs(ctx, email):
     await ctx.send("```"+log+"```")
 
 @bot.command()
-async def leads(ctx):
-    current_Leads=get("status", "leads")["Value"]
-    set("status", "leads", not current_Leads)
+async def cryptic_leads(ctx):
+    current_Leads=get("status", "leads-cryptic")["Value"]
+    set("status", "leads-cryptic", not current_Leads)
     message=""
     if current_Leads:
         message="off"
     else:
         message="on"
-    await ctx.send("Leads have been turned "+message)
+    await ctx.send("Cryptic Leads have been turned "+message)
+
+@bot.command()
+async def ctf_leads(ctx):
+    current_Leads=get("status", "leads-ctf")["Value"]
+    set("status", "leads-ctf", not current_Leads)
+    message=""
+    if current_Leads:
+        message="off"
+    else:
+        message="on"
+    await ctx.send("CTF Leads have been turned "+message)
 
 @bot.command()
 async def disqualify(ctx, email):
